@@ -8,6 +8,7 @@ jobs:
   cleanup:
     permissions:
       actions: write
+    runs-on: ubuntu-latest
     steps:
       - name: Cleanup
         run: |
