@@ -21,7 +21,7 @@ concurrency:
 permissions: read-all
 jobs:
   build-and-push:
-    runs-on: intellabs-01
+    runs-on: ubuntu-latest
     permissions:
       packages: write
     steps:
@@ -49,7 +49,7 @@ jobs:
         build-args: |
           ROS_DISTRO=${{ github.ref == 'refs/heads/main' && 'humble' || github.event.pull_request.base.ref == 'main' && 'humble' || github.event.pull_request.base.ref }}
   test-devcontainer:
-    runs-on: intellabs-01
+    runs-on: ubuntu-latest
     permissions:
       packages: write
     steps:
