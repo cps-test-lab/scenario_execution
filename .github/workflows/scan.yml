@@ -65,7 +65,7 @@ jobs:
     name: License check
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cps-test-lab/scenario-execution
+      image: ghcr.io/cps-test-lab/scenario-execution:${{ github.event.pull_request.base.ref }}
     steps:
       - name: Checkout code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #v4.1.1
