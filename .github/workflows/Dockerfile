@@ -34,4 +34,3 @@ RUN apt-get update && \
     colcon build
 
 WORKDIR /scenario_execution
-
