@@ -21,7 +21,7 @@ RUN --mount=type=bind,source=.,target=/scenario_execution \
 
 # install dependencies for license check
 RUN PIPX_HOME="" PIPX_BIN_DIR="/python_bin" pipx install -v ros-license-toolkit==1.2.2 && \
-    go install github.com/google/addlicense@v1.1.1
+    GOPATH=/go go install github.com/google/addlicense@v1.1.1
 
 # install pybullet dependencies
 RUN --mount=type=bind,source=.,target=/scenario_execution \
