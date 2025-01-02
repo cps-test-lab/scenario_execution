@@ -65,19 +65,26 @@ jobs:
     name: License check
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cps-test-lab/scenario-execution:${{ github.event.pull_request.base.ref }}
+      image: ros:jazzy-ros-base
     steps:
       - name: Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
+      - name: Prepare System
+        shell: bash
+        run: |
+          apt update
+          apt install -y python3-pip golang-go
+          pipx install ros-license-toolkit==1.2.2
+          go install github.com/google/addlicense@v1.1.1
       - name: Check for license tags
         shell: bash
         run: |
-            find . -type f \( -name "*.py" -o -name "*.cpp" -o -name "*.h" \) -exec /go/bin/addlicense -check {} +
+            find . -type f \( -name "*.py" -o -name "*.cpp" -o -name "*.h" \) -exec addlicense -check {} +
       - name: Run ros_license_toolkit for each Package
         shell: bash
         run: |
             git config --global --add safe.directory /__w/scenario-execution/scenario-execution
-            git config --global --add safe.directory /venvs/ros-license-toolkit
+            git config --global --add safe.directory $HOME/.local/bin/
             find . -name "package.xml" | while IFS= read -r pkg_file; do
               pkg_dir=$(dirname "$pkg_file")
               pkg_name=$(basename "$pkg_dir")
@@ -86,6 +93,6 @@ jobs:
                 continue
               fi
               echo "Processing package at $pkg_dir"
-              /python_bin/ros_license_toolkit "$pkg_dir"
+              $HOME/.local/bin/ros-license-toolkit "$pkg_dir"
             done
             
