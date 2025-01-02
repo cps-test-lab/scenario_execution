@@ -69,6 +69,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #v4.1.1
+        with:
+          set-safe-directory: /__w/scenario-execution/scenario-execution
       - name: Check for license tags
         shell: bash
         run: |
@@ -76,7 +78,6 @@ jobs:
       - name: Run ros_license_toolkit for each Package
         shell: bash
         run: |
-            git config --global --add safe.directory /__w/scenario_execution/scenario_execution
             find . -name "package.xml" | while IFS= read -r pkg_file; do
               pkg_dir=$(dirname "$pkg_file")
               pkg_name=$(basename "$pkg_dir")
